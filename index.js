@@ -10,6 +10,7 @@ let paddleHeight = 12,
   paddleWidth = 72;
 let gameOver = false;
 let youWin = false;
+let gameStarted = false;
 
 let paddleX = (canvas.width - paddleWidth) / 2;
 
@@ -26,6 +27,7 @@ let bricks = [];
 initializeBricks();
 
 let restartBtn = document.getElementById("restartBtn");
+let startBtn = document.getElementById("startBtn");
 
 function initializeBricks() {
   bricks = [];
@@ -44,14 +46,21 @@ function resetGame() {
   dx = 2;
   dy = -2;
   paddleX = (canvas.width - paddleWidth) / 2;
-  x = canvas.width / (Math.floor(Math.random() * Math.random() * 10) + 3);
+  x = canvas.width / (Math.floor(Math.random() * Math.random() * 10) + 3); // Resetowanie pozycji piłki
   y = canvas.height - 40;
   initializeBricks();
-  restartBtn.style.display = "none"; // Ukryj przycisk restartu przy ponownym uruchomieniu gry
+  restartBtn.style.display = "none"; // Ukryj przycisk restartu
 }
 
 restartBtn.addEventListener("click", function () {
+  gameStarted = true; // Ustaw start gry na true, aby wznowić grę
   resetGame();
+});
+
+startBtn.addEventListener("click", function () {
+  gameStarted = true; // Gra się rozpoczyna
+  startBtn.style.display = "none"; // Ukryj przycisk startu
+  resetGame(); // Zresetuj i rozpocznij grę
 });
 
 document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -141,6 +150,8 @@ function drawYouWin() {
 }
 
 function init() {
+  if (!gameStarted) return; // Gra nie zacznie się, dopóki użytkownik nie kliknie "Start Game"
+
   if (gameOver) {
     drawGameOver();
     restartBtn.style.display = "block"; // Pokaż przycisk restartu po przegranej
@@ -178,5 +189,3 @@ function init() {
 }
 
 setInterval(init, 10);
-
-resetGame();

@@ -4,7 +4,7 @@ body {
     align-items: center;
     justify-content: center;
     background-color: #efefef;
-    flex-direction: column; /* żeby elementy były ułożone pionowo */
+    flex-direction: column;
 }
 
 #game {
@@ -13,8 +13,7 @@ body {
     border: 2px solid #333;
 }
 
-#restartBtn {
-    display: none; /* Ukryty na początku */
+button {
     margin-top: 20px;
     padding: 10px 20px;
     font-size: 18px;
@@ -26,6 +25,14 @@ body {
     transition: background-color 0.3s ease;
 }
 
-#restartBtn:hover {
-    background-color: #555; /* Kolor przycisku po najechaniu */
+button:hover {
+    background-color: #555;
+}
+
+#restartBtn {
+    display: none; /* Ukryty na początku */
+}
+
+#startBtn {
+    display: block; /* Pokaż tylko na początku */
 }
