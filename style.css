@@ -1,15 +1,31 @@
-body{
+body {
     height: 100%;
-    /* border: solid black 1px; */
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #efefef;
-
+    flex-direction: column; /* żeby elementy były ułożone pionowo */
 }
 
-#game{
+#game {
     background-color: #ccc;
     margin-top: 10rem;
     border: 2px solid #333;
+}
+
+#restartBtn {
+    display: none; /* Ukryty na początku */
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 18px;
+    color: white;
+    background-color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#restartBtn:hover {
+    background-color: #555; /* Kolor przycisku po najechaniu */
 }
