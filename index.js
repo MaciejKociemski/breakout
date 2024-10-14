@@ -39,7 +39,19 @@ function resizeCanvas() {
   resetGame();
 }
 
+// function initializeBricks() {
+//   bricks = [];
+//   for (let c = 0; c < columnCount; c++) {
+//     bricks[c] = [];
+//     for (let r = 0; r < rowCount; r++) {
+//       bricks[c][r] = { x: 0, y: 0, status: 1 };
+//     }
+//   }
+
 function initializeBricks() {
+  // Oblicz liczbę kolumn
+  columnCount = Math.floor((canvas.width - leftOffset * 2) / (brickWidth + brickPadding));
+  brickWidth = (canvas.width - leftOffset * 2 - (columnCount - 1) * brickPadding) / columnCount; // Nowa szerokość klocka
   bricks = [];
   for (let c = 0; c < columnCount; c++) {
     bricks[c] = [];
@@ -48,6 +60,8 @@ function initializeBricks() {
     }
   }
 }
+
+
 
 function resetGame() {
   score = 0;
@@ -111,6 +125,25 @@ function drawBall() {
   ctx.closePath();
 }
 
+// function drawBricks() {
+//   for (let c = 0; c < columnCount; c++) {
+//     for (let r = 0; r < rowCount; r++) {
+//       if (bricks[c][r].status === 1) {
+//         let brickX = c * (brickWidth + brickPadding) + leftOffset;
+//         let brickY = r * (brickHeight + brickPadding) + topOffset;
+//         bricks[c][r].x = brickX;
+//         bricks[c][r].y = brickY;
+//         ctx.beginPath();
+//         ctx.rect(brickX, brickY, brickWidth, brickHeight);
+//           ctx.fillStyle = "#ddd";
+//           ctx.shadowColor = "rgba (0,0,0,0.3)";
+//           ctx.shadowBlur = 5;
+//         ctx.fill();
+//         ctx.closePath();
+//       }
+//     }
+//   }
+// }
 function drawBricks() {
   for (let c = 0; c < columnCount; c++) {
     for (let r = 0; r < rowCount; r++) {
@@ -121,15 +154,16 @@ function drawBricks() {
         bricks[c][r].y = brickY;
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
-          ctx.fillStyle = "#ddd";
-          ctx.shadowColor = "rgba (0,0,0,0.3)";
-          ctx.shadowBlur = 5;
+        ctx.fillStyle = "#ddd";
+        ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+        ctx.shadowBlur = 5;
         ctx.fill();
         ctx.closePath();
       }
     }
   }
 }
+
 
 function trackScore() {
   ctx.font = "bold 16px sans-serif";
@@ -205,12 +239,12 @@ function init() {
 //     if (x > paddleX && x < paddleX + paddleWidth) {
 //       dy = -dy;
 //     } else {
-//       gameOver = false;
+//       gameOver = true;
 //     }
 //   }
 
 //   x += dx;
-    //   y += dy;
+//       y += dy;
     
 
     if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
