@@ -1,6 +1,6 @@
 let canvas = document.getElementById("game"),
   ctx = canvas.getContext("2d"),
-  ballRadius = 9,
+  ballRadius = 10,
   x,
   y,
   dx = 2,
@@ -28,14 +28,14 @@ initializeBricks();
 let restartBtn = document.getElementById("restartBtn");
 let startBtn = document.getElementById("startBtn");
 
-// Rozmiary dynamiczne
+
 resizeCanvas();
 
 function resizeCanvas() {
-  canvas.width = Math.min(window.innerWidth * 0.9, 650); // Maksymalna szerokość to 90% ekranu lub 650px
-  canvas.height = Math.min(window.innerHeight * 0.6, 450); // Maksymalna wysokość to 60% ekranu lub 450px
-  paddleWidth = canvas.width * 0.1; // Paddle stanowi 10% szerokości canvas
-  paddleX = (canvas.width - paddleWidth) / 2; // Ustawienie początkowej pozycji paddle
+  canvas.width = Math.min(window.innerWidth * 0.9, 650); 
+  canvas.height = Math.min(window.innerHeight * 0.6, 450); 
+  paddleWidth = canvas.width * 0.1; 
+  paddleX = (canvas.width - paddleWidth) / 2; 
   resetGame();
 }
 
@@ -56,13 +56,13 @@ function resetGame() {
   dx = 2;
   dy = -2;
   paddleX = (canvas.width - paddleWidth) / 2;
-  x = canvas.width / (Math.floor(Math.random() * Math.random() * 10) + 3); // Resetowanie pozycji piłki
+  x = canvas.width / (Math.floor(Math.random() * Math.random() * 10) + 3); 
   y = canvas.height - 40;
   initializeBricks();
-  restartBtn.style.display = "none"; // Ukryj przycisk restartu
+  restartBtn.style.display = "none"; 
 }
 
-// Obsługa przycisków
+
 restartBtn.addEventListener("click", function () {
   gameStarted = true;
   resetGame();
@@ -74,10 +74,10 @@ startBtn.addEventListener("click", function () {
   resetGame();
 });
 
-// Obsługa zdarzeń myszki
+
 document.addEventListener("mousemove", mouseMoveHandler, false);
 
-// Obsługa dotyku na mobilnych
+
 canvas.addEventListener("touchmove", touchMoveHandler, false);
 
 function mouseMoveHandler(e) {
@@ -87,7 +87,7 @@ function mouseMoveHandler(e) {
   }
 }
 
-// Obsługa dotyku
+
 function touchMoveHandler(e) {
   let relativeX = e.touches[0].clientX - canvas.offsetLeft;
   if (relativeX > 0 && relativeX < canvas.width) {
@@ -98,7 +98,7 @@ function touchMoveHandler(e) {
 function drawPaddle() {
   ctx.beginPath();
   ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = "#eee";
   ctx.fill();
   ctx.closePath();
 }
@@ -106,7 +106,7 @@ function drawPaddle() {
 function drawBall() {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = "#f0f0f0";
   ctx.fill();
   ctx.closePath();
 }
@@ -121,7 +121,9 @@ function drawBricks() {
         bricks[c][r].y = brickY;
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
-        ctx.fillStyle = "#333";
+          ctx.fillStyle = "#ddd";
+          ctx.shadowColor = "rgba (0,0,0,0.3)";
+          ctx.shadowBlur = 5;
         ctx.fill();
         ctx.closePath();
       }
@@ -131,7 +133,7 @@ function drawBricks() {
 
 function trackScore() {
   ctx.font = "bold 16px sans-serif";
-  ctx.fillStyle = "#333";
+  ctx.fillStyle = "#eee";
   ctx.fillText("Score: " + score, 8, 24);
 }
 
@@ -148,11 +150,11 @@ function hitDetection() {
         ) {
           dy = -dy;
           b.status = 0;
-          score++;
+          score = score + 10;
 
           if (score === rowCount * columnCount) {
             youWin = true;
-            restartBtn.style.display = "block"; // Pokaż przycisk restartu po wygranej
+            restartBtn.style.display = "block"; 
           }
         }
       }
@@ -161,8 +163,8 @@ function hitDetection() {
 }
 
 function drawGameOver() {
-  ctx.font = "bold 36px sans-serif";
-  ctx.fillStyle = "red";
+  ctx.font = "bold 26px sans-serif";
+  ctx.fillStyle = "yellow";
   ctx.fillText("Game Over!", canvas.width / 2 - 100, canvas.height / 2);
 }
 
@@ -193,22 +195,36 @@ function init() {
   drawPaddle();
   hitDetection();
 
-  if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-    dx = -dx;
-  }
+//   if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+//     dx = -dx;
+//   }
 
-  if (y + dy < ballRadius) {
-    dy = -dy;
-  } else if (y + dy > canvas.height - ballRadius) {
-    if (x > paddleX && x < paddleX + paddleWidth) {
-      dy = -dy;
-    } else {
-      gameOver = true;
+//   if (y + dy < ballRadius) {
+//     dy = -dy;
+//   } else if (y + dy > canvas.height - ballRadius) {
+//     if (x > paddleX && x < paddleX + paddleWidth) {
+//       dy = -dy;
+//     } else {
+//       gameOver = false;
+//     }
+//   }
+
+//   x += dx;
+    //   y += dy;
+    
+
+    if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+      dx = -dx; 
     }
-  }
 
-  x += dx;
-  y += dy;
+    if (y + dy < ballRadius) {
+      dy = -dy; 
+    } else if (y + dy > canvas.height - ballRadius) {
+      dy = -dy; 
+    }
+    x += dx;
+    y += dy;
+
 }
 
 setInterval(init, 10);
