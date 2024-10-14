@@ -11,6 +11,8 @@ body {
     background-color: #ccc;
     margin-top: 10rem;
     border: 2px solid #333;
+    max-width: 90vw;
+    max-height: 60vh;
 }
 
 button {

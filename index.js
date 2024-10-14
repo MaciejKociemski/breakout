@@ -12,8 +12,7 @@ let gameOver = false;
 let youWin = false;
 let gameStarted = false;
 
-let paddleX = (canvas.width - paddleWidth) / 2;
-
+let paddleX;
 let rowCount = 5,
   columnCount = 9,
   brickWidth = 54,
@@ -28,6 +27,17 @@ initializeBricks();
 
 let restartBtn = document.getElementById("restartBtn");
 let startBtn = document.getElementById("startBtn");
+
+// Rozmiary dynamiczne
+resizeCanvas();
+
+function resizeCanvas() {
+  canvas.width = Math.min(window.innerWidth * 0.9, 650); // Maksymalna szerokość to 90% ekranu lub 650px
+  canvas.height = Math.min(window.innerHeight * 0.6, 450); // Maksymalna wysokość to 60% ekranu lub 450px
+  paddleWidth = canvas.width * 0.1; // Paddle stanowi 10% szerokości canvas
+  paddleX = (canvas.width - paddleWidth) / 2; // Ustawienie początkowej pozycji paddle
+  resetGame();
+}
 
 function initializeBricks() {
   bricks = [];
@@ -52,21 +62,34 @@ function resetGame() {
   restartBtn.style.display = "none"; // Ukryj przycisk restartu
 }
 
+// Obsługa przycisków
 restartBtn.addEventListener("click", function () {
-  gameStarted = true; // Ustaw start gry na true, aby wznowić grę
+  gameStarted = true;
   resetGame();
 });
 
 startBtn.addEventListener("click", function () {
-  gameStarted = true; // Gra się rozpoczyna
-  startBtn.style.display = "none"; // Ukryj przycisk startu
-  resetGame(); // Zresetuj i rozpocznij grę
+  gameStarted = true;
+  startBtn.style.display = "none";
+  resetGame();
 });
 
+// Obsługa zdarzeń myszki
 document.addEventListener("mousemove", mouseMoveHandler, false);
 
+// Obsługa dotyku na mobilnych
+canvas.addEventListener("touchmove", touchMoveHandler, false);
+
 function mouseMoveHandler(e) {
-  var relativeX = e.clientX - canvas.offsetLeft;
+  let relativeX = e.clientX - canvas.offsetLeft;
+  if (relativeX > 0 && relativeX < canvas.width) {
+    paddleX = relativeX - paddleWidth / 2;
+  }
+}
+
+// Obsługa dotyku
+function touchMoveHandler(e) {
+  let relativeX = e.touches[0].clientX - canvas.offsetLeft;
   if (relativeX > 0 && relativeX < canvas.width) {
     paddleX = relativeX - paddleWidth / 2;
   }
@@ -150,11 +173,11 @@ function drawYouWin() {
 }
 
 function init() {
-  if (!gameStarted) return; // Gra nie zacznie się, dopóki użytkownik nie kliknie "Start Game"
+  if (!gameStarted) return;
 
   if (gameOver) {
     drawGameOver();
-    restartBtn.style.display = "block"; // Pokaż przycisk restartu po przegranej
+    restartBtn.style.display = "block";
     return;
   }
 
